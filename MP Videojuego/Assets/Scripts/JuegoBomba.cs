@@ -11,24 +11,52 @@ public class JuegoBomba : MonoBehaviour
     public GameObject personaje4;
     
     private GameObject quienTieneBomba;
-    private float tiempoIA = 2f;
+    private float tiempoIA = 0.05f;
     private float contadorIA;
     
     public float velocidadBomba = 5f; // Velocidad del movimiento
     private bool bombaEnMovimiento = false;
+
+    //explosion bomba
+
+    public float tiempoExplosion = 10f; // Tiempo hasta que explote
+    private float tiempoRestante;
+    private Vector3 escalaInicial;
+    private Vector3 escalaFinal = new Vector3(1f, 1f, 1f); // Tamaño máximo antes de explotar
+    
     
     void Start()
-    {
-        quienTieneBomba = jugador;
-        bomba.transform.SetParent(jugador.transform, false);
-        bomba.transform.localPosition = new Vector3(0.033f, 0.587f, 0.929f);
+{
+    quienTieneBomba = jugador;
+        
+        Vector3 offsetInicial = ObtenerOffset(jugador);
+        bomba.transform.localPosition = new Vector3(0.033f, 0.587f, 0.6029f);
+        bomba.transform.SetParent(jugador.transform, true);
+        
         bomba.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        bomba.transform.localScale = new Vector3(0.43f, 0.43f, 0.43f);
+        escalaInicial = new Vector3(0.43f, 0.43f, 0.43f);
+        bomba.transform.localScale = escalaInicial;
+        
         contadorIA = tiempoIA;
-    }
+        tiempoRestante = tiempoExplosion;
+}
     
     void Update()
-    {
+    {   
+         // Actualizar tiempo de la bomba
+        tiempoRestante -= Time.deltaTime;
+        
+        // Inflar la bomba según el tiempo restante
+        float progreso = 1 - (tiempoRestante / tiempoExplosion); // 0 a 1
+        bomba.transform.localScale = Vector3.Lerp(escalaInicial, escalaFinal, progreso);
+        
+        // Explotar cuando llegue a 0
+        if (tiempoRestante <= 0)
+        {
+            ExplotarBomba();
+            return;
+        }
+        
         // No permitar acciones mientras la bomba se mueve
         if(bombaEnMovimiento) return;
         
@@ -42,9 +70,10 @@ public class JuegoBomba : MonoBehaviour
             if(contadorIA <= 0)
             {
                 PasarBombaIA();
-                contadorIA = Random.Range(1f, 2.5f);
+                contadorIA = Random.Range(0.1f, 0.5f);
             }
         }
+
     }
     
     void ControlJugador()
@@ -88,64 +117,98 @@ public class JuegoBomba : MonoBehaviour
     IEnumerator AnimarPaseBomba(GameObject nuevoDestino)
     {
         bombaEnMovimiento = true;
+    
+    // Desparentar la bomba para que se mueva libremente
+    bomba.transform.SetParent(null);
+    
+    // Posición inicial
+    Vector3 posInicial = bomba.transform.position;
+    
+    // Calcular posición de destino
+    Vector3 offsetDestino = ObtenerOffset(nuevoDestino);
+    Vector3 posFinal = nuevoDestino.transform.position + nuevoDestino.transform.TransformDirection(offsetDestino);
+    
+    // Animar el movimiento con parábola
+    float tiempoTranscurrido = 0f;
+    float duracion = 0.5f;
+    float alturaArco = 3f;
+    
+    while(tiempoTranscurrido < duracion)
+    {
+        tiempoTranscurrido += Time.deltaTime;
+        float porcentaje = tiempoTranscurrido / duracion;
         
-        // Desparentar la bomba para que se mueva libremente
-        bomba.transform.SetParent(null);
+        // Aplicar aceleración (empieza lento, termina rápido)
+        float porcentajeAcelerado = porcentaje * porcentaje * porcentaje;
         
-        // Posición inicial
-        Vector3 posInicial = bomba.transform.position;
+        // Movimiento horizontal con aceleración
+        Vector3 posicionHorizontal = Vector3.Lerp(posInicial, posFinal, porcentajeAcelerado);
         
-        // Calcular posición de destino
-        Vector3 offsetDestino = ObtenerOffset(nuevoDestino);
-       Vector3 posFinal = nuevoDestino.transform.position + nuevoDestino.transform.TransformDirection(offsetDestino);
+        // Movimiento vertical (parábola)
+        float alturaParabola = alturaArco * (porcentaje * (1 - porcentaje) * 4);
         
-        // Animar el movimiento
-        float tiempoTranscurrido = 0f;
-        float duracion = 0.5f; // Duración del viaje (ajústalo)
+        // Posición final con arco
+        bomba.transform.position = posicionHorizontal + Vector3.up * alturaParabola;
         
-        while(tiempoTranscurrido < duracion)
-        {
-            tiempoTranscurrido += Time.deltaTime;
-            float porcentaje = tiempoTranscurrido / duracion;
-            
-            // Movimiento suave con curva
-            bomba.transform.position = Vector3.Lerp(posInicial, posFinal, porcentaje);
-            
-            yield return null;
-        }
-        
-        // Asegurar posición final
-        bomba.transform.position = posFinal;
-        
+        yield return null;
+    }
+                
         // Hacer hija del nuevo destino
         quienTieneBomba = nuevoDestino;
-        bomba.transform.SetParent(nuevoDestino.transform, true);
+        bomba.transform.SetParent(nuevoDestino.transform);
+        yield return null; 
+        bomba.transform.localPosition = ObtenerOffset(nuevoDestino); // Asignar directamente
         bomba.transform.localRotation = Quaternion.identity;
         
+
+        Animator animator = bomba.GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+
+        Debug.Log($"Offset aplicado: {ObtenerOffset(nuevoDestino)}"); // Para verificar
+
         bombaEnMovimiento = false;
-        
+
         Debug.Log("Bomba pasada a: " + nuevoDestino.name);
     }
     
     Vector3 ObtenerOffset(GameObject animal)
+{
+    if(animal == jugador) // Cow
     {
-        if(animal == jugador) // Cow
-        {
-            return new Vector3(0.033f, 0.587f, 0.929f);
-        }
-        else if(animal == personaje2) // Elephant
-        {
-            return new Vector3(0f, 2.5f, 0f);
-        }
-        else if(animal == personaje3) // Cat
-        {
-            return new Vector3(0f, 1.2f, 0f);
-        }
-        else if(animal == personaje4) // Llama
-        {
-            return new Vector3(0f, 2f, 0.3f);
-        }
+        return new Vector3(0.033f, 0.587f, 0.929f);
         
-        return Vector3.up * 1.5f; // Default
+    }
+    else if(animal == personaje2) // Elephant
+    {
+        return new Vector3(0.37f, 0.42f, 0.66f);
+    }
+    else if(animal == personaje3) // Cat
+    {
+        return new Vector3(0.30f, 0.42f, 0.71f);
+    }
+    else if(animal == personaje4) // Llama
+    {
+        return new Vector3(0.33f, 0.56f, 0.42f);
+    }
+    
+    return Vector3.up * 1.5f; // Default
+}
+
+    void ExplotarBomba()
+    {
+        Debug.Log($"¡EXPLOSIÓN! {quienTieneBomba.name} perdió!");
+        
+        // Aquí puedes agregar efectos de explosión, sonido, etc.
+        // Destruir la bomba
+    Destroy(bomba);
+    
+    // Destruir al perdedor
+    Destroy(quienTieneBomba);
+    
+    // Detener el juego
+    this.enabled = false;
     }
 }
