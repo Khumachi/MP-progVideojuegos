@@ -19,11 +19,16 @@ public class JuegoBomba : MonoBehaviour
 
     //explosion bomba
 
+    //sonido
+    public AudioSource audioSource;
+    public AudioClip sonidoExplosion;   
+
     public float tiempoExplosion = 10f; // Tiempo hasta que explote
     private float tiempoRestante;
     private Vector3 escalaInicial;
-    private Vector3 escalaFinal = new Vector3(1f, 1f, 1f); // Tamaño máximo antes de explotar
+    private Vector3 escalaFinal = new Vector3(0.5f, 0.5f, 0.5f); // Tamaño máximo antes de explotar
     
+    public bool juegoIniciado = false; 
     
     void Start()
 {
@@ -43,19 +48,25 @@ public class JuegoBomba : MonoBehaviour
     
     void Update()
     {   
+        //iniciar script
+        if (!juegoIniciado) return;
          // Actualizar tiempo de la bomba
         tiempoRestante -= Time.deltaTime;
         
+        // Solo inflar si NO está en movimiento
+    if (!bombaEnMovimiento)
+    {
         // Inflar la bomba según el tiempo restante
         float progreso = 1 - (tiempoRestante / tiempoExplosion); // 0 a 1
         bomba.transform.localScale = Vector3.Lerp(escalaInicial, escalaFinal, progreso);
-        
-        // Explotar cuando llegue a 0
-        if (tiempoRestante <= 0)
-        {
-            ExplotarBomba();
-            return;
-        }
+    }
+    
+    // Explotar cuando llegue a 0
+    if (tiempoRestante <= 0)
+    {
+        ExplotarBomba();
+        return;
+    }
         
         // No permitar acciones mientras la bomba se mueve
         if(bombaEnMovimiento) return;
@@ -115,11 +126,15 @@ public class JuegoBomba : MonoBehaviour
     }
     
     IEnumerator AnimarPaseBomba(GameObject nuevoDestino)
-    {
-        bombaEnMovimiento = true;
+{
+    bombaEnMovimiento = true;
+    
+    // Guardar la escala de mundo (no local) antes de desparentar
+    Vector3 escalaGlobal = bomba.transform.lossyScale;
     
     // Desparentar la bomba para que se mueva libremente
     bomba.transform.SetParent(null);
+    bomba.transform.localScale = escalaGlobal; // Asignar escala global como local
     
     // Posición inicial
     Vector3 posInicial = bomba.transform.position;
@@ -138,7 +153,7 @@ public class JuegoBomba : MonoBehaviour
         tiempoTranscurrido += Time.deltaTime;
         float porcentaje = tiempoTranscurrido / duracion;
         
-        // Aplicar aceleración (empieza lento, termina rápido)
+        // Aplicar aceleración
         float porcentajeAcelerado = porcentaje * porcentaje * porcentaje;
         
         // Movimiento horizontal con aceleración
@@ -152,27 +167,24 @@ public class JuegoBomba : MonoBehaviour
         
         yield return null;
     }
-                
-        // Hacer hija del nuevo destino
-        quienTieneBomba = nuevoDestino;
-        bomba.transform.SetParent(nuevoDestino.transform);
-        yield return null; 
-        bomba.transform.localPosition = ObtenerOffset(nuevoDestino); // Asignar directamente
-        bomba.transform.localRotation = Quaternion.identity;
-        
-
-        Animator animator = bomba.GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.enabled = false;
-        }
-
-        Debug.Log($"Offset aplicado: {ObtenerOffset(nuevoDestino)}"); // Para verificar
-
-        bombaEnMovimiento = false;
-
-        Debug.Log("Bomba pasada a: " + nuevoDestino.name);
+    
+    // Hacer hija del nuevo destino
+    quienTieneBomba = nuevoDestino;
+    bomba.transform.SetParent(nuevoDestino.transform);
+    
+    bomba.transform.localPosition = ObtenerOffset(nuevoDestino);
+    bomba.transform.localRotation = Quaternion.identity;
+    
+    Animator animator = bomba.GetComponent<Animator>();
+    if (animator != null)
+    {
+        animator.enabled = false;
     }
+    
+    bombaEnMovimiento = false;
+    
+    Debug.Log("Bomba pasada a: " + nuevoDestino.name);
+}
     
     Vector3 ObtenerOffset(GameObject animal)
 {
@@ -198,17 +210,23 @@ public class JuegoBomba : MonoBehaviour
 }
 
     void ExplotarBomba()
+{
+    Debug.Log($"¡EXPLOSIÓN! {quienTieneBomba.name} perdió!");
+    
+    // Reproducir con AudioSource
+    if (audioSource != null && sonidoExplosion != null)
     {
-        Debug.Log($"¡EXPLOSIÓN! {quienTieneBomba.name} perdió!");
-        
-        // Aquí puedes agregar efectos de explosión, sonido, etc.
-        // Destruir la bomba
-    Destroy(bomba);
-    
-    // Destruir al perdedor
-    Destroy(quienTieneBomba);
-    
-    // Detener el juego
-    this.enabled = false;
+        audioSource.PlayOneShot(sonidoExplosion);
     }
+    
+    Destroy(bomba);
+    Destroy(quienTieneBomba);
+    this.enabled = false;
+}
+
+//iniciar juego
+    public void IniciarJuego()
+{
+    juegoIniciado = true;
+}
 }
