@@ -226,8 +226,8 @@ public class BombGame : MonoBehaviour
         }
         
         // Destroy after delay to see explosion
-        Destroy(bomb, 0.5f);
-        Destroy(whoHasBomb, 0.5f);
+        Destroy(bomb);
+        Destroy(whoHasBomb);
         
         this.enabled = false;
     }

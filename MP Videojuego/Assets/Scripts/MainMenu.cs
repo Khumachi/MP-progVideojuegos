@@ -30,7 +30,7 @@ public class MainMenu : MonoBehaviour
     // Button PLAY
     public void Play()
     {
-        SceneManager.LoadScene(0); // Change to your scene name
+        SceneManager.LoadScene(1); // Change to your scene name
     }
     
     // Button EXIT
