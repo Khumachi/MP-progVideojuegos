@@ -29,6 +29,8 @@ public class JuegoBomba : MonoBehaviour
     private Vector3 escalaFinal = new Vector3(0.5f, 0.5f, 0.5f); // Tamaño máximo antes de explotar
     
     public bool juegoIniciado = false; 
+
+    public GameOverManager gameOverManager; //gameover
     
     void Start()
 {
@@ -211,7 +213,7 @@ public class JuegoBomba : MonoBehaviour
 
     void ExplotarBomba()
 {
-    Debug.Log($"¡EXPLOSIÓN! {quienTieneBomba.name} perdió!");
+    Debug.Log($"¡EXPLOSIÓN! {quienTieneBomba.name} perdio!");
     
     // Reproducir con AudioSource
     if (audioSource != null && sonidoExplosion != null)
@@ -219,8 +221,15 @@ public class JuegoBomba : MonoBehaviour
         audioSource.PlayOneShot(sonidoExplosion);
     }
     
-    Destroy(bomba);
-    Destroy(quienTieneBomba);
+   if (gameOverManager != null)
+    {
+        gameOverManager.MostrarGameOver(quienTieneBomba.name);
+    }
+    
+    // Destruir después de un delay para que se vea la explosión
+    Destroy(bomba, 0.5f);
+    Destroy(quienTieneBomba, 0.5f);
+    
     this.enabled = false;
 }
 
