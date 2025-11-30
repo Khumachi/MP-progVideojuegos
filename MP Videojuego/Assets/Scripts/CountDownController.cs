@@ -3,35 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CountDownController : MonoBehaviour
+public class CountdownController : MonoBehaviour
 {
     public int countdownTime;
-    public TextMeshProUGUI Numero;
-    public JuegoBomba juegoBomba; // Agregar esta línea
+    public TextMeshProUGUI numberText;
+    public BombGame bombGame;
 
-    IEnumerator countdownToStart()
+    IEnumerator CountdownToStart()
     {
         while(countdownTime > 0)
         {
-            Numero.text = countdownTime.ToString();
+            numberText.text = countdownTime.ToString();
             yield return new WaitForSeconds(1f);
             countdownTime--;
         }
 
-        Numero.text = "GO!";
+        numberText.text = "GO!";
         
-        // Iniciar el juego de la bomba
-        if (juegoBomba != null)
+        // Start the bomb game
+        if (bombGame != null)
         {
-            juegoBomba.IniciarJuego();
+            bombGame.StartGame();
         }
         
         yield return new WaitForSeconds(1f);
-        Numero.gameObject.SetActive(false);
+        numberText.gameObject.SetActive(false);
     }
 
     void Start()
     {
-        StartCoroutine(countdownToStart());
+        StartCoroutine(CountdownToStart());
     }
 }
