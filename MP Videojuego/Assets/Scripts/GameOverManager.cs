@@ -5,30 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
-    public GameObject panelGameOver;
-    public TextMeshProUGUI textoPerdedor;
+    public GameObject gameOverPanel;
+    public TextMeshProUGUI loserText;
     
     void Start()
     {
-        panelGameOver.SetActive(false);
+        gameOverPanel.SetActive(false);
     }
     
-    public void MostrarGameOver(string nombrePerdedor)
+    public void ShowGameOver(string loserName)
     {
-        panelGameOver.SetActive(true);
-        textoPerdedor.text = nombrePerdedor + " PERDIO!";
-        Time.timeScale = 0f; // Pausar el juego
+        gameOverPanel.SetActive(true);
+        loserText.text = loserName + " LOST!";
+        Time.timeScale = 0f; // Pause the game
     }
     
-    public void VolverAJugar()
+    public void PlayAgain()
     {
-        Time.timeScale = 1f; // Reanudar tiempo
-        SceneManager.LoadScene(1); // Recargar escena
+        Time.timeScale = 1f; // Resume time
+        SceneManager.LoadScene(0); // Reload scene
     }
     
-    public void IrAlMenu()
+    public void GoToMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu"); // Cambiar por el nombre de tu escena de menú
+        SceneManager.LoadScene("MainMenu"); // Change to your menu scene name
     }
 }

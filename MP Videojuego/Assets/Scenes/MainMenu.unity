@@ -398,8 +398,9 @@ GameObject:
   - component: {fileID: 292047679}
   - component: {fileID: 292047678}
   - component: {fileID: 292047677}
+  - component: {fileID: 292047680}
   m_Layer: 5
-  m_Name: BtnComo jugar
+  m_Name: HowtoPlayBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -469,9 +470,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 292047680}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1185393864}
-        m_TargetAssemblyTypeName: MenuPrincipal, Assembly-CSharp
-        m_MethodName: MostrarComoJugar
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ShowHowToPlay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -519,6 +532,102 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 292047675}
   m_CullTransparentMesh: 1
+--- !u!82 &292047680
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292047675}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: dd7e6ce985ac39f4eba11ba0716d5059, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &397109315
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,7 +685,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Reglas del Juego
+  m_text: GAME RULES
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
   m_sharedMaterial: {fileID: 196506297473316712, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
@@ -666,7 +775,7 @@ GameObject:
   - component: {fileID: 461051026}
   - component: {fileID: 461051025}
   m_Layer: 5
-  m_Name: Gato
+  m_Name: Cat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -784,7 +893,7 @@ GameObject:
   m_Component:
   - component: {fileID: 499611606}
   m_Layer: 5
-  m_Name: Personajes
+  m_Name: Characters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -945,7 +1054,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Jugar
+  m_text: PLAY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9cd8396b1d0c284f9d8829a3dcbe618, type: 2}
   m_sharedMaterial: {fileID: 8196206378711987807, guid: d9cd8396b1d0c284f9d8829a3dcbe618, type: 2}
@@ -1128,7 +1237,7 @@ GameObject:
   - component: {fileID: 792357621}
   - component: {fileID: 792357620}
   m_Layer: 5
-  m_Name: NumJugadores
+  m_Name: PlayersNum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1173,7 +1282,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Jugadores 1 - 4
+  m_text: Players 1 - 4
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
   m_sharedMaterial: {fileID: 196506297473316712, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
@@ -1263,7 +1372,7 @@ GameObject:
   - component: {fileID: 806379827}
   - component: {fileID: 806379826}
   m_Layer: 5
-  m_Name: Elefante
+  m_Name: Elephant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1395,7 +1504,7 @@ GameObject:
   - component: {fileID: 859425743}
   - component: {fileID: 859425742}
   m_Layer: 5
-  m_Name: Titulo
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1440,7 +1549,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Bomba Caliente
+  m_text: Hot o Bomb
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b4ab9e8062ac6df4bb114b4ecab42ecd, type: 2}
   m_sharedMaterial: {fileID: 8196206378711987807, guid: b4ab9e8062ac6df4bb114b4ecab42ecd, type: 2}
@@ -1467,7 +1576,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.6
+  m_fontSize: 26
   m_fontSizeBase: 24.16
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1527,7 +1636,7 @@ GameObject:
   m_Component:
   - component: {fileID: 955265632}
   m_Layer: 0
-  m_Name: Textos
+  m_Name: Texts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1637,7 +1746,7 @@ GameObject:
   - component: {fileID: 1036270453}
   - component: {fileID: 1036270452}
   m_Layer: 5
-  m_Name: PanelReglas
+  m_Name: RulesPannel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1835,7 +1944,7 @@ GameObject:
   - component: {fileID: 1161880296}
   - component: {fileID: 1161880295}
   m_Layer: 5
-  m_Name: Vaca
+  m_Name: Cow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1973,8 +2082,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386a4cd93278f8747becdcf43b9ec2e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textoReglas: {fileID: 2104367378}
-  textoComoJugar: {fileID: 1630190824}
+  rulesText: {fileID: 2104367378}
+  howToPlayText: {fileID: 1630190824}
 --- !u!4 &1185393865
 Transform:
   m_ObjectHideFlags: 0
@@ -2356,7 +2465,7 @@ GameObject:
   - component: {fileID: 1409300024}
   - component: {fileID: 1409300023}
   m_Layer: 5
-  m_Name: Jugar
+  m_Name: Play
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2427,8 +2536,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1185393864}
-        m_TargetAssemblyTypeName: MenuPrincipal, Assembly-CSharp
-        m_MethodName: Jugar
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2488,7 +2597,7 @@ GameObject:
   - component: {fileID: 1450392654}
   - component: {fileID: 1450392653}
   m_Layer: 5
-  m_Name: Controles
+  m_Name: Controls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2533,7 +2642,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Controles
+  m_text: Controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9cd8396b1d0c284f9d8829a3dcbe618, type: 2}
   m_sharedMaterial: {fileID: 8196206378711987807, guid: d9cd8396b1d0c284f9d8829a3dcbe618, type: 2}
@@ -2876,7 +2985,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xBFComo Jugar?"
+  m_text: How to Play?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
   m_sharedMaterial: {fileID: 196506297473316712, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
@@ -2965,7 +3074,7 @@ GameObject:
   - component: {fileID: 1630190827}
   - component: {fileID: 1630190826}
   m_Layer: 5
-  m_Name: Texto
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3010,7 +3119,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: JUGAR
+  m_text: PLAY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
   m_sharedMaterial: {fileID: 196506297473316712, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
@@ -3099,7 +3208,7 @@ GameObject:
   - component: {fileID: 1690947995}
   - component: {fileID: 1690947994}
   m_Layer: 5
-  m_Name: PanelJugar
+  m_Name: PlayPannel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3251,7 +3360,7 @@ GameObject:
   - component: {fileID: 2020715571}
   - component: {fileID: 2020715570}
   m_Layer: 5
-  m_Name: Accesibilidad
+  m_Name: Accessibility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3373,7 +3482,7 @@ GameObject:
   - component: {fileID: 2086197203}
   - component: {fileID: 2086197206}
   m_Layer: 5
-  m_Name: BtnReglas
+  m_Name: RulesBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3444,8 +3553,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1185393864}
-        m_TargetAssemblyTypeName: MenuPrincipal, Assembly-CSharp
-        m_MethodName: MostrarReglas
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ShowRules
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3613,7 +3722,7 @@ GameObject:
   - component: {fileID: 2104367381}
   - component: {fileID: 2104367380}
   m_Layer: 5
-  m_Name: Texto
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3658,7 +3767,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: REGLAS
+  m_text: RULES
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
   m_sharedMaterial: {fileID: 196506297473316712, guid: 0f651cefe60d93f43b93a8031a040dde, type: 2}
