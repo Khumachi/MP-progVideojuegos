@@ -23,7 +23,7 @@ public class GameOverManager : MonoBehaviour
     public void PlayAgain()
     {
         Time.timeScale = 1f; // Resume time
-        SceneManager.LoadScene(0); // Reload scene
+        SceneManager.LoadScene(1); // Reload scene
     }
     
     public void GoToMenu()
